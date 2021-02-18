@@ -57,20 +57,22 @@ String countSeconds(int difference, bool abbreviateUnit) {
 /// This function truncates to the lowest minute.
 ///   returns ("1 minute" OR "X minutes")
 String countMinutes(int difference, bool abbreviateUnit) {
-  final unit = abbreviateUnit ? 'min' : 'minute';
   final count = (difference / 60000).truncate();
+  final unit = abbreviateUnit ? 'min' : 'minute';
+  final text = _getText(count, unit);
 
-  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
+  return count.toString() + text;
 }
 
 /// Converts the time difference to a number of hours.
 /// This function truncates to the lowest hour.
 ///   returns ("1 hour" OR "X hours")
 String countHours(int difference, bool abbreviateUnit) {
-  final unit = abbreviateUnit ? 'hr' : 'hour';
   final count = (difference / 3600000).truncate();
+  final unit = abbreviateUnit ? 'hr' : 'hour';
+  final text = _getText(count, unit);
 
-  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
+  return count.toString() + text;
 }
 
 /// Converts the time difference to a number of days.
@@ -78,7 +80,9 @@ String countHours(int difference, bool abbreviateUnit) {
 ///   returns ("1 day" OR "X days")
 String countDays(int difference, bool abbreviateUnit) {
   final count = (difference / 86400000).truncate();
-  return count.toString() + (count > 1 ? ' days' : ' day');
+  final text = _getText(count, unit);
+
+  return count.toString() + text;
 }
 
 /// Converts the time difference to a number of weeks.
@@ -93,7 +97,8 @@ String countWeeks(int difference, bool abbreviateUnit) {
   }
   
   final unit = abbreviateUnit ? 'wk' : 'week';
-  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
+  final text = _getText(count, unit);
+  return count.toString() + text;
 }
 
 /// Converts the time difference to a number of months.
@@ -109,15 +114,21 @@ String countMonths(int difference, bool abbreviateUnit) {
   }
 
   final unit = abbreviateUnit ? 'mth' : 'month';
-  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
+  final text = _getText(count, unit);
+  return count.toString() + text;
 }
 
 /// Converts the time difference to a number of years.
 /// This function truncates to the lowest year.
 ///   returns ("1 year" OR "X years")
 String countYears(int difference, bool abbreviateUnit) {
-  final unit = abbreviateUnit ? 'yr' : 'year';
   final count = (difference / 31536000000).truncate();
+  final unit = abbreviateUnit ? 'yr' : 'year';
+  final text = _getText(count, unit);
 
-  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
+  return count.toString() + text;
+}
+
+String _getText(int count, String unit) {
+  return count > 1 ? ' ${unit}s' : ' $unit';
 }
