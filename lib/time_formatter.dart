@@ -80,7 +80,7 @@ String countHours(int difference, bool abbreviateUnit) {
 ///   returns ("1 day" OR "X days")
 String countDays(int difference, bool abbreviateUnit) {
   final count = (difference / 86400000).truncate();
-  final text = _getText(count, unit);
+  final text = _getText(count, 'day');
 
   return count.toString() + text;
 }
