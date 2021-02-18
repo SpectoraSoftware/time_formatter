@@ -20,7 +20,7 @@
 /// Formats a given UNIX millisecond timestamp into a human-readable string.
 ///
 /// Progresses from smallest unit (second), to largest (years)
-String formatTime(int timestamp, [bool abbreviateUnit = false]) {
+String formatTime(int timestamp, {bool abbreviateUnit = false}) {
   /// The number of milliseconds that have passed since the timestamp
   int difference = DateTime.now().millisecondsSinceEpoch - timestamp;
   String result;
