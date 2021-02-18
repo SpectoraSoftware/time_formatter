@@ -20,7 +20,7 @@
 /// Formats a given UNIX millisecond timestamp into a human-readable string.
 ///
 /// Progresses from smallest unit (second), to largest (years)
-String formatTime(int timestamp) {
+String formatTime(int timestamp, [bool abbreviateUnit = false]) {
   /// The number of milliseconds that have passed since the timestamp
   int difference = DateTime.now().millisecondsSinceEpoch - timestamp;
   String result;
@@ -47,31 +47,37 @@ String formatTime(int timestamp) {
 /// This function truncates to the lowest second.
 ///   returns ("Just now" OR "X seconds")
 String countSeconds(int difference) {
-  int count = (difference / 1000).truncate();
-  return count > 1 ? count.toString() + ' seconds' : 'Just now';
+  final unit = abbreviateUnit ? 'sec' : 'seconds';
+  final count = (difference / 1000).truncate();
+
+  return count > 1 ? count.toString() + ' $unit' : 'Just now';
 }
 
 /// Converts the time difference to a number of minutes.
 /// This function truncates to the lowest minute.
 ///   returns ("1 minute" OR "X minutes")
 String countMinutes(int difference) {
-  int count = (difference / 60000).truncate();
-  return count.toString() + (count > 1 ? ' minutes' : ' minute');
+  final unit = abbreviateUnit ? 'min' : 'minute';
+  final count = (difference / 60000).truncate();
+
+  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
 }
 
 /// Converts the time difference to a number of hours.
 /// This function truncates to the lowest hour.
 ///   returns ("1 hour" OR "X hours")
 String countHours(int difference) {
-  int count = (difference / 3600000).truncate();
-  return count.toString() + (count > 1 ? ' hours' : ' hour');
+  final unit = abbreviateUnit ? 'hr' : 'hour';
+  final count = (difference / 3600000).truncate();
+
+  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
 }
 
 /// Converts the time difference to a number of days.
 /// This function truncates to the lowest day.
 ///   returns ("1 day" OR "X days")
 String countDays(int difference) {
-  int count = (difference / 86400000).truncate();
+  final count = (difference / 86400000).truncate();
   return count.toString() + (count > 1 ? ' days' : ' day');
 }
 
@@ -79,11 +85,15 @@ String countDays(int difference) {
 /// This function truncates to the lowest week.
 ///   returns ("1 week" OR "X weeks" OR "1 month")
 String countWeeks(int difference) {
-  int count = (difference / 604800000).truncate();
+  final count = (difference / 604800000).truncate();
+
   if (count > 3) {
-    return '1 month';
+    final unit = abbreviateUnit ? 'mth' : 'month';
+    return '1 $unit';
   }
-  return count.toString() + (count > 1 ? ' weeks' : ' week');
+  
+  final unit = abbreviateUnit ? 'wk' : 'week';
+  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
 }
 
 /// Converts the time difference to a number of months.
@@ -92,16 +102,22 @@ String countWeeks(int difference) {
 String countMonths(int difference) {
   int count = (difference / 2628003000).round();
   count = count > 0 ? count : 1;
+
   if (count > 12) {
-    return '1 year';
+    final unit = abbreviateUnit ? 'yr' : 'year';
+    return '1 $unit';
   }
-  return count.toString() + (count > 1 ? ' months' : ' month');
+
+  final unit = abbreviateUnit ? 'mth' : 'month';
+  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
 }
 
 /// Converts the time difference to a number of years.
 /// This function truncates to the lowest year.
 ///   returns ("1 year" OR "X years")
 String countYears(int difference) {
-  int count = (difference / 31536000000).truncate();
-  return count.toString() + (count > 1 ? ' years' : ' year');
+  final unit = abbreviateUnit ? 'yr' : 'year';
+  final count = (difference / 31536000000).truncate();
+
+  return count.toString() + (count > 1 ? ' ${unit}s' : ' $unit');
 }
