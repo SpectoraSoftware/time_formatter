@@ -26,19 +26,19 @@ String formatTime(int timestamp, [bool abbreviateUnit = false]) {
   String result;
 
   if (difference < 60000) {
-    result = countSeconds(difference);
+    result = countSeconds(difference, abbreviateUnit);
   } else if (difference < 3600000) {
-    result = countMinutes(difference);
+    result = countMinutes(difference, abbreviateUnit);
   } else if (difference < 86400000) {
-    result = countHours(difference);
+    result = countHours(difference, abbreviateUnit);
   } else if (difference < 604800000) {
-    result = countDays(difference);
+    result = countDays(difference, abbreviateUnit);
   } else if (difference / 1000 < 2419200) {
-    result = countWeeks(difference);
+    result = countWeeks(difference, abbreviateUnit);
   } else if (difference / 1000 < 31536000) {
-    result = countMonths(difference);
+    result = countMonths(difference, abbreviateUnit);
   } else
-    result = countYears(difference);
+    result = countYears(difference, abbreviateUnit);
 
   return !result.startsWith("J") ? result + ' ago' : result; 
 }
@@ -46,7 +46,7 @@ String formatTime(int timestamp, [bool abbreviateUnit = false]) {
 /// Converts the time difference to a number of seconds.
 /// This function truncates to the lowest second.
 ///   returns ("Just now" OR "X seconds")
-String countSeconds(int difference) {
+String countSeconds(int difference, bool abbreviateUnit) {
   final unit = abbreviateUnit ? 'sec' : 'seconds';
   final count = (difference / 1000).truncate();
 
@@ -56,7 +56,7 @@ String countSeconds(int difference) {
 /// Converts the time difference to a number of minutes.
 /// This function truncates to the lowest minute.
 ///   returns ("1 minute" OR "X minutes")
-String countMinutes(int difference) {
+String countMinutes(int difference, bool abbreviateUnit) {
   final unit = abbreviateUnit ? 'min' : 'minute';
   final count = (difference / 60000).truncate();
 
@@ -66,7 +66,7 @@ String countMinutes(int difference) {
 /// Converts the time difference to a number of hours.
 /// This function truncates to the lowest hour.
 ///   returns ("1 hour" OR "X hours")
-String countHours(int difference) {
+String countHours(int difference, bool abbreviateUnit) {
   final unit = abbreviateUnit ? 'hr' : 'hour';
   final count = (difference / 3600000).truncate();
 
@@ -76,7 +76,7 @@ String countHours(int difference) {
 /// Converts the time difference to a number of days.
 /// This function truncates to the lowest day.
 ///   returns ("1 day" OR "X days")
-String countDays(int difference) {
+String countDays(int difference, bool abbreviateUnit) {
   final count = (difference / 86400000).truncate();
   return count.toString() + (count > 1 ? ' days' : ' day');
 }
@@ -84,7 +84,7 @@ String countDays(int difference) {
 /// Converts the time difference to a number of weeks.
 /// This function truncates to the lowest week.
 ///   returns ("1 week" OR "X weeks" OR "1 month")
-String countWeeks(int difference) {
+String countWeeks(int difference, bool abbreviateUnit) {
   final count = (difference / 604800000).truncate();
 
   if (count > 3) {
@@ -99,7 +99,7 @@ String countWeeks(int difference) {
 /// Converts the time difference to a number of months.
 /// This function rounds to the nearest month.
 ///   returns ("1 month" OR "X months" OR "1 year")
-String countMonths(int difference) {
+String countMonths(int difference, bool abbreviateUnit) {
   int count = (difference / 2628003000).round();
   count = count > 0 ? count : 1;
 
@@ -115,7 +115,7 @@ String countMonths(int difference) {
 /// Converts the time difference to a number of years.
 /// This function truncates to the lowest year.
 ///   returns ("1 year" OR "X years")
-String countYears(int difference) {
+String countYears(int difference, bool abbreviateUnit) {
   final unit = abbreviateUnit ? 'yr' : 'year';
   final count = (difference / 31536000000).truncate();
 
